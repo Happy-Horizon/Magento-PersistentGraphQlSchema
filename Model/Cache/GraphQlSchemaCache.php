@@ -15,8 +15,8 @@ use Magento\Framework\App\Cache\Type\FrontendPool;
 class GraphQlSchemaCache extends TagScope implements CacheInterface
 {
     protected GraphQlSchemaPersistentFileManager $graphQlSchemaPersistentFileManager;
-    const TYPE_IDENTIFIER = 'graphqlschema_cache_tag';
-    const CACHE_TAG = 'GRAPHQLSCHEMA_CACHE_TAG';
+    const TYPE_IDENTIFIER = 'graphqlschema_cache';
+    const CACHE_TAG = 'GRAPHQLSCHEMA_CACHE';
 
     /**
      * @param FrontendPool $cacheFrontendPool
@@ -52,7 +52,8 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
      */
     public function save($data, $identifier, array $tags = [], $lifeTime = null)
     {
-        $this->graphQlSchemaPersistentFileManager->setSchemaData($data)->createCachedSchemaFile();
+        $this->graphQlSchemaPersistentFileManager->setSchemaData($data);
+        $this->graphQlSchemaPersistentFileManager->createCachedSchemaFile();
         return parent::save($data, $identifier, $tags, $lifeTime);
     }
 
@@ -73,8 +74,9 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
      */
     public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = [])
     {
-        $this->graphQlSchemaPersistentFileManager->refreshCachedSchemaFile();
+        if ($this->graphQlSchemaPersistentFileManager->getCachedSchemaData()) {
+            $this->graphQlSchemaPersistentFileManager->refreshCachedSchemaFile();
+        }
         return parent::clean($mode, $tags);
     }
 }
-
