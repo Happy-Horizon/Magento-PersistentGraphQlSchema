@@ -1,0 +1,22 @@
+{
+    "name": "happyhorizon/module-persistentgraphqlschema",
+    "description": "Load the graphql schema data from a generated file instead of cache to improve performance",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "name": "Mage2Gen",
+            "email": "info@mage2gen.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "HappyHorizon\\PersistentGraphQlSchema\\": ""
+        }
+    }
+}
