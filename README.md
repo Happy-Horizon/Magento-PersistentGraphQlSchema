@@ -9,11 +9,9 @@ That saves time and resourced for subsequent calls.
 Recreating the schema data can also be forced by deleting the ./generated/graphql.schema file.
 Both cache:flush and cache:clean swap the file if it already exists; resulting in no downtime.
 
-# To do
-Check if the cache is enabled/disabled?
+## Test without CONFIG cache
 
-$cacheState = $om->get('Magento\Framework\App\Cache\StateInterface');
-/** @var bool $isEnabled */
-$isEnabled = $cacheState->isEnabled(
-\Magento\Framework\App\Cache\Type\Block::TYPE_IDENTIFIER
-);
+Performance gain without CONFIG cache (a quick test on development environement).
+This is the case when someone flushes the configuration cache in Magento (which tends to happen a lot).
+
+![Performance gain without CONFIG cache](docs/performance_free_of_config_cache.png)

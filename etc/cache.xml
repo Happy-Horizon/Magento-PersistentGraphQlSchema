@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Cache/etc/cache.xsd">
-	<type name="graphqlschemacache_cache_tag" translate="label,description" instance="HappyHorizon\PersistentGraphQlSchema\Model\Cache\GraphQlSchemaCache">
+	<type name="graphqlschema_cache" translate="label,description" instance="HappyHorizon\PersistentGraphQlSchema\Model\Cache\GraphQlSchemaCache">
 		<label>GraphQl Schema Cache</label>
 		<description>Persistent file based graphql.schema cache</description>
 	</type>

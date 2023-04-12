@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace HappyHorizon\PersistentGraphQlSchema\Model\Cache;
 
 use HappyHorizon\PersistentGraphQlSchema\Model\GraphQlSchemaPersistentFileManager;
+use Magento\Framework\App\Cache\StateInterface;
 use Magento\Framework\Cache\Frontend\Decorator\TagScope;
 use Magento\Framework\Config\CacheInterface;
 use Magento\Framework\App\Cache\Type\FrontendPool;
@@ -15,19 +16,25 @@ use Magento\Framework\App\Cache\Type\FrontendPool;
 class GraphQlSchemaCache extends TagScope implements CacheInterface
 {
     protected GraphQlSchemaPersistentFileManager $graphQlSchemaPersistentFileManager;
+
+    protected StateInterface $cacheState;
+
     const TYPE_IDENTIFIER = 'graphqlschema_cache';
     const CACHE_TAG = 'GRAPHQLSCHEMA_CACHE';
 
     /**
      * @param FrontendPool $cacheFrontendPool
      * @param GraphQlSchemaPersistentFileManager $graphQlSchemaPersistentFileManager
+     * @param StateInterface $cacheState
      */
     public function __construct(
         FrontendPool $cacheFrontendPool,
-        GraphQlSchemaPersistentFileManager $graphQlSchemaPersistentFileManager
+        GraphQlSchemaPersistentFileManager $graphQlSchemaPersistentFileManager,
+        StateInterface $cacheState
     ) {
-        $this->graphQlSchemaPersistentFileManager = $graphQlSchemaPersistentFileManager;
         parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
+        $this->graphQlSchemaPersistentFileManager = $graphQlSchemaPersistentFileManager;
+        $this->cacheState = $cacheState;
     }
 
     /**
@@ -37,6 +44,10 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
      */
     public function load($identifier)
     {
+        if (!$this->cacheState->isEnabled(self::TYPE_IDENTIFIER)) {
+            return parent::load($identifier);
+        }
+
         // Serve cached schema data if available
         if ($cachedSchemaData = $this->graphQlSchemaPersistentFileManager->getCachedSchemaData()) {
             return $cachedSchemaData;
@@ -53,6 +64,10 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
      */
     public function save($data, $identifier, array $tags = [], $lifeTime = null)
     {
+        if (!$this->cacheState->isEnabled(self::TYPE_IDENTIFIER)) {
+            return parent::save($data, $identifier, $tags, $lifeTime);
+        }
+
         $this->graphQlSchemaPersistentFileManager->setSchemaData($data);
         $this->graphQlSchemaPersistentFileManager->createCachedSchemaFile();
         return parent::save($data, $identifier, $tags, $lifeTime);
@@ -64,6 +79,10 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
      */
     public function remove($identifier)
     {
+        if (!$this->cacheState->isEnabled(self::TYPE_IDENTIFIER)) {
+            return parent::remove($identifier);
+        }
+
         return $this->clean();
     }
 
@@ -74,6 +93,10 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
      */
     public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = [])
     {
+        if (!$this->cacheState->isEnabled(self::TYPE_IDENTIFIER)) {
+            return parent::clean($mode, $tags);
+        }
+
         // Contains smart refresh of the graphql.schema
         $this->graphQlSchemaPersistentFileManager->refreshCachedSchemaFile();
         return true;
