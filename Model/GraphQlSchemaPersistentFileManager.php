@@ -20,11 +20,11 @@ class GraphQlSchemaPersistentFileManager
 
     protected DirectoryList $directoryList;
 
-    protected ReaderInterface $reader;
-
     protected Json $serializer;
 
     protected LoggerInterface $logger;
+
+    protected ReaderInterface $reader;
 
     protected $schemaData;
 
@@ -34,24 +34,28 @@ class GraphQlSchemaPersistentFileManager
      * @param Filesystem $filesystem
      * @param DirectoryList $directoryList
      * @param Json $serializer
-     * @param ReaderInterface $reader
      * @param LoggerInterface $logger
+     * @param ReaderInterface $reader
      */
     public function __construct(
         Filesystem $filesystem,
         DirectoryList $directoryList,
         Json $serializer,
-        ReaderInterface $reader,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        ReaderInterface $reader
     ) {
         $this->filesystem = $filesystem;
         $this->directoryList = $directoryList;
         $this->serializer = $serializer;
-        $this->reader = $reader;
         $this->logger = $logger;
+
+        // Injected reader is virtualType Magento\Framework\GraphQlSchemaStitching\Reader; see ./etc/di.xml
+        $this->reader = $reader;
     }
 
     /**
+     * Get graphql.schema data
+     *
      * @return bool|string
      */
     public function getSchemaData()
@@ -85,15 +89,22 @@ class GraphQlSchemaPersistentFileManager
     }
 
     /**
+     * Get cached schema if available
+     *
      * @return false|string
-     * @throws \Magento\Framework\Exception\FileSystemException
      */
     public function getCachedSchemaData()
     {
-        if ($this->getWriteDirectory()->isExist(self::GRAPHQL_SCHEMA_FILENAME)) {
-            return $this->getWriteDirectory()->readFile(self::GRAPHQL_SCHEMA_FILENAME);
+        if (!$this->getWriteDirectory()->isExist(self::GRAPHQL_SCHEMA_FILENAME)) {
+            return false;
         }
-        return false;
+
+        try {
+            return $this->getWriteDirectory()->readFile(self::GRAPHQL_SCHEMA_FILENAME);
+        } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
+            return false;
+        }
     }
 
     /**
@@ -109,17 +120,27 @@ class GraphQlSchemaPersistentFileManager
     }
 
     /**
+     * Refresh ./generated/graphql.schema file
+     *
      * @return void
      */
     public function refreshCachedSchemaFile(): void
     {
-        $this->deleteCachedSchemaFile();
+        /**
+         * Decided to not compare contents of cached file if it is found.
+         * The most time is spend on "$this->reader->read()", making a refresh of the file equally fast.
+         */
+
+        if ($this->getCachedSchemaData()) {
+            $this->deleteCachedSchemaFile();
+        }
         $this->createCachedSchemaFile();
     }
 
     /**
+     * Get write directory (./generated)
+     *
      * @return WriteInterface
-     * @throws \Magento\Framework\Exception\FileSystemException
      */
     private function getWriteDirectory(): WriteInterface
     {

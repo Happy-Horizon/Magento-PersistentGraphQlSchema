@@ -7,6 +7,14 @@
         {
             "name": "Mage2Gen",
             "email": "info@mage2gen.com"
+        },
+        {
+            "name": "Derrick Heesbeen",
+            "email": "derrick@experius.nl"
+        },
+        {
+            "name": "Boris van Katwijk",
+            "email": "borisvankatwijk@happyhorizon.com"
         }
     ],
     "minimum-stability": "dev",

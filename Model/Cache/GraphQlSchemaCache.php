@@ -37,6 +37,7 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
      */
     public function load($identifier)
     {
+        // Serve cached schema data if available
         if ($cachedSchemaData = $this->graphQlSchemaPersistentFileManager->getCachedSchemaData()) {
             return $cachedSchemaData;
         }
@@ -59,24 +60,22 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
 
     /**
      * @param $identifier
-     * @return bool
+     * @return bool True if no problem
      */
     public function remove($identifier)
     {
-        $this->graphQlSchemaPersistentFileManager->refreshCachedSchemaFile();
-        return parent::remove($identifier);
+        return $this->clean();
     }
 
     /**
      * @param $mode
      * @param array $tags
-     * @return bool
+     * @return bool True if no problem
      */
     public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = [])
     {
-        if ($this->graphQlSchemaPersistentFileManager->getCachedSchemaData()) {
-            $this->graphQlSchemaPersistentFileManager->refreshCachedSchemaFile();
-        }
-        return parent::clean($mode, $tags);
+        // Contains smart refresh of the graphql.schema
+        $this->graphQlSchemaPersistentFileManager->refreshCachedSchemaFile();
+        return true;
     }
 }

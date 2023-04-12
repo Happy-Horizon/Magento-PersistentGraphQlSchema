@@ -1,5 +1,9 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--
+    Reroute "Magento\Framework\GraphQl\Config\Data" to our own cache class
+    Normally "Magento\Framework\App\Cache\Type\Config" is used, resulting in bad performance on config cache invalidation
+    -->
     <virtualType name="Magento\Framework\GraphQl\Config\Data">
         <arguments>
             <argument name="cache" xsi:type="object">HappyHorizon\PersistentGraphQlSchema\Model\Cache\GraphQlSchemaCache</argument>
@@ -8,6 +12,10 @@
 
     <type name="HappyHorizon\PersistentGraphQlSchema\Model\GraphQlSchemaPersistentFileManager">
         <arguments>
+            <!--
+            virtualType name="Magento\Framework\GraphQlSchemaStitching\Reader"
+            is declared in vendor/magento/module-graph-ql/etc/di.xml
+            -->
             <argument name="reader" xsi:type="object">Magento\Framework\GraphQlSchemaStitching\Reader</argument>
         </arguments>
     </type>
