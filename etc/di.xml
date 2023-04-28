@@ -10,13 +10,21 @@
         </arguments>
     </virtualType>
 
-    <type name="HappyHorizon\PersistentGraphQlSchema\Model\GraphQlSchemaPersistentFileManager">
+    <type name="HappyHorizon\PersistentGraphQlSchema\Model\Cache\GraphQlSchemaCache">
         <arguments>
             <!--
             virtualType name="Magento\Framework\GraphQlSchemaStitching\Reader"
             is declared in vendor/magento/module-graph-ql/etc/di.xml
+            and injected here as "reader" argument for the __construct() method
             -->
             <argument name="reader" xsi:type="object">Magento\Framework\GraphQlSchemaStitching\Reader</argument>
         </arguments>
+    </type>
+
+    <!-- Declare plugin on global scope to soft refresh from every scope -->
+    <type name="Magento\Framework\GraphQlSchemaStitching\Common\Reader">
+        <plugin name="HappyHorizon_PersistentGraphQlSchema_Plugin_Graphql_Magento_Framework_GraphQlSchemaStitching_Common_Reader"
+                type="HappyHorizon\PersistentGraphQlSchema\Plugin\Graphql\Magento\Framework\GraphQlSchemaStitching\Common\Reader"
+                sortOrder="0"/>
     </type>
 </config>

@@ -1,3 +1,10 @@
+## 1.1.0 (2023-04-28)
+
+[View Release](https://bitbucket.org/experius/mage2-module-happyhorizon-persistentgraphqlschema.git/commits/tag/1.1.0)
+
+*  [FEATURE][IN23-11] Simplify cache layer (do not intoduce caching system, but merely separate the schema cache interations). *(Boris van Katwijk)*
+
+
 ## 1.0.0 (2023-04-12)
 
 [View Release](https://bitbucket.org/experius/mage2-module-happyhorizon-persistentgraphqlschema.git/commits/tag/1.0.0)
