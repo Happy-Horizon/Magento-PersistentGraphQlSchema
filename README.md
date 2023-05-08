@@ -1,4 +1,4 @@
-# Mage2 Module HappyHorizon PersistentGraphQlSchema
+# Magento HappyHorizon PersistentGraphQlSchema
 
 This module moves the GraphQl Schema caching to his on caching pool/layer.
 
