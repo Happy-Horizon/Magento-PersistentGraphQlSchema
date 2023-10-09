@@ -12,6 +12,7 @@ use Magento\Framework\Cache\Frontend\Decorator\TagScope;
 use Magento\Framework\Config\CacheInterface;
 use Magento\Framework\App\Cache\Type\FrontendPool;
 use Magento\Framework\Config\ReaderInterface;
+use GuzzleHttp\Client;
 
 class GraphQlSchemaCache extends TagScope implements CacheInterface
 {
@@ -34,7 +35,8 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
     public function __construct(
         FrontendPool $cacheFrontendPool,
         StateInterface $cacheState,
-        ReaderInterface $reader
+        ReaderInterface $reader,
+        protected Client $guzzleClient
     ) {
         parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
         $this->isCacheEnabled = $cacheState->isEnabled(GraphQlSchemaCache::TYPE_IDENTIFIER);
@@ -80,8 +82,16 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
      */
     public function refreshGraphQlSchema(): void
     {
-        // @TODO: Determine if we need to iterate all scopes;
-        //          i.e. \Magento\Framework\App\Area:: constants
-        $this->reader->read();
+        $query = 'query { storeConfig { base_url } }';
+        $endpoint = '127.0.0.1/graphql';
+
+        // Call the graphql endpoint with a very basic call to trigger the graphql schema cache refresh
+        $this->guzzleClient->post(
+            $endpoint,
+            [
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => json_encode(['query' => $query])
+            ]
+        );
     }
 }
