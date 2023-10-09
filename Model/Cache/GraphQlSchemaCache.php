@@ -13,6 +13,7 @@ use Magento\Framework\Config\CacheInterface;
 use Magento\Framework\App\Cache\Type\FrontendPool;
 use Magento\Framework\Config\ReaderInterface;
 use GuzzleHttp\Client;
+use Psr\Log\LoggerInterface;
 
 class GraphQlSchemaCache extends TagScope implements CacheInterface
 {
@@ -36,7 +37,8 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
         FrontendPool $cacheFrontendPool,
         StateInterface $cacheState,
         ReaderInterface $reader,
-        protected Client $guzzleClient
+        protected Client $guzzleClient,
+        protected LoggerInterface $logger
     ) {
         parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
         $this->isCacheEnabled = $cacheState->isEnabled(GraphQlSchemaCache::TYPE_IDENTIFIER);
@@ -82,16 +84,20 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
      */
     public function refreshGraphQlSchema(): void
     {
-        $query = 'query { storeConfig { base_url } }';
-        $endpoint = '127.0.0.1/graphql';
+        try {
+            $query = 'query { storeConfig { base_url } }';
+            $endpoint = '127.0.0.1/graphql';
 
-        // Call the graphql endpoint with a very basic call to trigger the graphql schema cache refresh
-        $this->guzzleClient->post(
-            $endpoint,
-            [
-                'headers' => ['Content-Type' => 'application/json'],
-                'body' => json_encode(['query' => $query])
-            ]
-        );
+            // Call the graphql endpoint with a very basic call to trigger the graphql schema cache refresh
+            $this->guzzleClient->post(
+                $endpoint,
+                [
+                    'headers' => ['Content-Type' => 'application/json'],
+                    'body' => json_encode(['query' => $query])
+                ]
+            );
+        } catch (\Exception $e) {
+            $this->logger->info($e->getMessage());
+        }
     }
 }
