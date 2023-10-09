@@ -25,7 +25,7 @@ class GraphQlSchemaCache extends TagScope implements CacheInterface
     /**
      * @var bool $isCacheEnabled
      */
-    private bool $isCacheEnabled;
+    public bool $isCacheEnabled;
 
     /**
      * @param FrontendPool $cacheFrontendPool

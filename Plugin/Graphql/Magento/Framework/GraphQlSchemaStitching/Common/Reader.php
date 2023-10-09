@@ -8,28 +8,18 @@ declare(strict_types=1);
 namespace HappyHorizon\PersistentGraphQlSchema\Plugin\Graphql\Magento\Framework\GraphQlSchemaStitching\Common;
 
 use HappyHorizon\PersistentGraphQlSchema\Model\Cache\GraphQlSchemaCache;
-use Magento\Framework\App\Cache\StateInterface;
 use Magento\Framework\Serialize\SerializerInterface;
 
 class Reader
 {
-    private GraphQlSchemaCache $cache;
-    private bool $isCacheEnabled;
-    private SerializerInterface $serializer;
-
     /**
-     * @param GraphQlSchemaCache $cache
-     * @param StateInterface $cacheState
+     * @param GraphQlSchemaCache $graphQlSchemaCache
      * @param SerializerInterface $serializer
      */
     public function __construct(
-        GraphQlSchemaCache $cache,
-        StateInterface $cacheState,
-        SerializerInterface $serializer
+        private GraphQlSchemaCache $graphQlSchemaCache,
+        private SerializerInterface $serializer
     ) {
-        $this->cache = $cache;
-        $this->isCacheEnabled = $cacheState->isEnabled(GraphQlSchemaCache::TYPE_IDENTIFIER);
-        $this->serializer = $serializer;
     }
 
     /**
@@ -49,12 +39,14 @@ class Reader
             $cacheId .= '_' . $scope;
         }
 
-        if ($this->isCacheEnabled && ($graphQlSchema = $this->cache->load($cacheId))) {
+        if ($this->graphQlSchemaCache->isCacheEnabled === true
+            && ($graphQlSchema = $this->graphQlSchemaCache->load($cacheId))
+        ) {
             return $this->serializer->unserialize($graphQlSchema);
         }
         $graphQlSchema = $proceed();
-        if ($this->isCacheEnabled) {
-            $this->cache->save(
+        if ($this->graphQlSchemaCache->isCacheEnabled === true) {
+            $this->graphQlSchemaCache->save(
                 $this->serializer->serialize($graphQlSchema),
                 $cacheId,
                 [GraphQlSchemaCache::CACHE_TAG]
