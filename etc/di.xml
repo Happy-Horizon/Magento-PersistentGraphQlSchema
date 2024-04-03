@@ -27,9 +27,4 @@
                 type="HappyHorizon\PersistentGraphQlSchema\Plugin\Graphql\Magento\Framework\GraphQlSchemaStitching\Common\Reader"
                 sortOrder="0"/>
     </type>
-    <type name="Magento\Framework\App\Cache\Manager">
-		<plugin name="HappyHorizon_PersistentGraphQlSchema_Plugin_Magento_Framework_App_Cache_Manager"
-                type="HappyHorizon\PersistentGraphQlSchema\Plugin\Magento\Framework\App\Cache\Manager"
-                sortOrder="10"/>
-	</type>
 </config>

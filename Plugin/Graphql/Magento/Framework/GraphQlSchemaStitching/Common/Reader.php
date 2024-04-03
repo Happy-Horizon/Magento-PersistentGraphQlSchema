@@ -7,18 +7,17 @@ declare(strict_types=1);
 
 namespace HappyHorizon\PersistentGraphQlSchema\Plugin\Graphql\Magento\Framework\GraphQlSchemaStitching\Common;
 
-use HappyHorizon\PersistentGraphQlSchema\Model\Cache\GraphQlSchemaCache;
-use Magento\Framework\Serialize\SerializerInterface;
+use Magento\Framework\Filesystem\DirectoryList;
+use Safe\Exceptions\FilesystemException;
+use Safe\Exceptions\JsonException;
 
 class Reader
 {
     /**
-     * @param GraphQlSchemaCache $graphQlSchemaCache
-     * @param SerializerInterface $serializer
+     * @param DirectoryList $dir
      */
     public function __construct(
-        private GraphQlSchemaCache $graphQlSchemaCache,
-        private SerializerInterface $serializer
+        protected DirectoryList $dir,
     ) {
     }
 
@@ -27,31 +26,29 @@ class Reader
      * @param \Closure $proceed
      * @param $scope
      * @return array
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @throws \Magento\Framework\Exception\FileSystemException
+     * @throws FilesystemException
+     * @throws JsonException
      */
     public function aroundRead(
         \Magento\Framework\GraphQlSchemaStitching\Common\Reader $subject,
         \Closure $proceed,
         $scope = null
     ): array {
-        $cacheId = GraphQlSchemaCache::TYPE_IDENTIFIER;
-        if ($scope) {
-            $cacheId .= '_' . $scope;
+        $filename = $this->dir->getPath('etc') . '/gql.php';
+
+        try {
+            $data = \Safe\file_get_contents($filename);
+        } catch (\Exception $e) {
+            $data = false;
         }
 
-        if ($this->graphQlSchemaCache->isCacheEnabled === true
-            && ($graphQlSchema = $this->graphQlSchemaCache->load($cacheId))
-        ) {
-            return $this->serializer->unserialize($graphQlSchema);
+        if (false === $data || '' === (string)$data) {
+            $data = $proceed();
+            \Safe\file_put_contents($filename, \Safe\json_encode($data));
+            return $data;
+        } else {
+            return json_decode($data, true);
         }
-        $graphQlSchema = $proceed();
-        if ($this->graphQlSchemaCache->isCacheEnabled === true) {
-            $this->graphQlSchemaCache->save(
-                $this->serializer->serialize($graphQlSchema),
-                $cacheId,
-                [GraphQlSchemaCache::CACHE_TAG]
-            );
-        }
-        return $graphQlSchema;
     }
 }
