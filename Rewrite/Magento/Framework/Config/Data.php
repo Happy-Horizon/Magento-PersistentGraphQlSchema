@@ -97,8 +97,12 @@ class Data extends \magento\framework\Config\Data
     protected function initData()
     {
         if ($this->cacheId === 'Magento_Framework_GraphQlSchemaStitching_Config_Data') {
-            $filename = realpath(__DIR__ . '/../../../../') . '/app/etc/gql.php';
-            $data = \Safe\file_get_contents($filename);
+            try {
+                $filename = realpath(__DIR__ . '/../../../../') . '/app/etc/gql.php';
+                $data = \Safe\file_get_contents($filename);
+            } catch (\Exception $e) {
+                $data = false;
+            }
 
             if (false === $data || '' === (string)$data) {
                 $data = $this->reader->read();
