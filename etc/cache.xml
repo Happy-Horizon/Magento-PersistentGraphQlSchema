@@ -1,7 +1,0 @@
-<?xml version="1.0" ?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Cache/etc/cache.xsd">
-	<type name="graphql_schema" translate="label,description" instance="HappyHorizon\PersistentGraphQlSchema\Model\Cache\GraphQlSchemaCache">
-		<label>GraphQl Schema Cache</label>
-		<description>Separate GraphQl Schema cache from CONFIG cache. This cache automatically refreshes itself on flush/clean.</description>
-	</type>
-</config>
