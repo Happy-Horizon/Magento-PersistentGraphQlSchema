@@ -1,0 +1,22 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \HappyHorizon\PersistentGraphQlSchema\Block\Cache\GraphqlFlushButton $block */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+
+?>
+<p>
+    <button id="flushGraphqlSchema" type="button">
+        <?= __("Flush GraphqlSchema") ?>
+    </button>
+    <?= /* @noEscape */ $secureRenderer->renderEventListenerAsTag(
+        'onclick',
+        'setLocation(\'' . $block->getFlushUrl() . '\')',
+        'button#flushGraphqlSchema'
+    ) ?>
+    <span><?= $block->escapeHtml(__('Flush GraphqlSchema files')); ?></span>
+</p>
+
