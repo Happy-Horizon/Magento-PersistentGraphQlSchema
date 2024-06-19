@@ -7,6 +7,8 @@
 /** @var \HappyHorizon\PersistentGraphQlSchema\Block\Cache\GraphqlFlushButton $block */
 /** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
 
+$message = __('Are you sure you want to Flush the GraphqlSchema? Note that this might cause site temporary to go slow!');
+$url = $block->getFlushUrl();
 ?>
 <p>
     <button id="flushGraphqlSchema" type="button">
@@ -14,9 +16,8 @@
     </button>
     <?= /* @noEscape */ $secureRenderer->renderEventListenerAsTag(
         'onclick',
-        'setLocation(\'' . $block->getFlushUrl() . '\')',
+        'confirmSetLocation(\''.$message.'\', \''.$url.'\')',
         'button#flushGraphqlSchema'
     ) ?>
     <span><?= $block->escapeHtml(__('Flush GraphqlSchema files')); ?></span>
 </p>
-
