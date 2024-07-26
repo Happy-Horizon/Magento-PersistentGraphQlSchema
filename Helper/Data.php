@@ -37,47 +37,62 @@ class Data extends AbstractHelper
 
     /**
      * @return string
-     * @throws FileSystemException
      */
     public function getGqlPath(): string
     {
-        return $this->dir->getPath(DirectoryListApp::CONFIG). DIRECTORY_SEPARATOR .self::GQL_FILE_NAME;
+        try {
+            return $this->dir->getPath(DirectoryListApp::CONFIG). DIRECTORY_SEPARATOR .self::GQL_FILE_NAME;
+        } catch (FileSystemException $e) {
+            return '';
+        }
     }
 
     /**
      * @param $path
      * @return bool
-     * @throws FileSystemException
      */
     public function checkIfFileExists($path): bool
     {
-        return $this->file->isExists($path);
+        try {
+            return $this->file->isExists($path);
+        } catch (FileSystemException $e) {
+            return false;
+        }
     }
 
     /**
      * @param $path
-     * @throws FileSystemException
+     * @return bool
      */
-    public function removeFile($path): void
+    public function removeFile($path): bool
     {
-        if ($this->checkIfFileExists($path)) {
-            $this->file->deleteFile($path);
+        try {
+            if ($this->checkIfFileExists($path)) {
+                $this->file->deleteFile($path);
+                return true;
+            }
+        } catch (FileSystemException $e) {
+            return false;
         }
+        return false;
     }
 
     /**
      * @param $path
      * @param $content
-     * @return void
-     * @throws FileSystemException
+     * @return bool
      */
-    public function saveFileContent($path, $content): void
+    public function saveFileContent($path, $content): bool
     {
-        if ($this->checkIfFileExists($path)) {
-            $this->file->deleteFile($path);
+        try {
+            if ($this->checkIfFileExists($path)) {
+                $this->removeFile($path);
+            }
             $this->file->filePutContents($path, $content);
+        } catch (FileSystemException $e) {
+            return false;
         }
-        $this->file->filePutContents($path, $content);
+        return true;
     }
 
     /**
