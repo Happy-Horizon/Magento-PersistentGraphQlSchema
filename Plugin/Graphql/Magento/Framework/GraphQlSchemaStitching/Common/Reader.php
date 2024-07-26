@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace HappyHorizon\PersistentGraphQlSchema\Plugin\Graphql\Magento\Framework\GraphQlSchemaStitching\Common;
 
+use HappyHorizon\PersistentGraphQlSchema\Helper\Data;
 use Magento\Framework\Filesystem\DirectoryList;
 use Safe\Exceptions\FilesystemException;
 use Safe\Exceptions\JsonException;
@@ -18,6 +19,7 @@ class Reader
      */
     public function __construct(
         protected DirectoryList $dir,
+        protected Data $helper
     ) {
     }
 
@@ -35,20 +37,20 @@ class Reader
         \Closure $proceed,
         $scope = null
     ): array {
-        $filename = $this->dir->getPath('etc') . '/gql.php';
+        $filename = $this->helper->getGqlPath();
 
         try {
-            $data = \Safe\file_get_contents($filename);
+            $data = $this->helper->checkIfFileExists($filename)? \Safe\file_get_contents($filename) : false;
         } catch (\Exception $e) {
             $data = false;
         }
 
         if (false === $data || '' === (string)$data) {
             $data = $proceed();
-            \Safe\file_put_contents($filename, \Safe\json_encode($data));
+            $this->helper->saveFileContent($filename, $this->helper->encodeData($data));
             return $data;
         } else {
-            return json_decode($data, true);
+            return $this->helper->decodeData($data);
         }
     }
 }

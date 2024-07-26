@@ -35,8 +35,7 @@ class CleanGraphql implements HttpGetActionInterface
         protected messageManager    $messageManager,
         protected Redirect          $redirect,
         protected ResultFactory     $resultFactory
-)
-    {
+    ) {
     }
 
     /**
@@ -47,8 +46,7 @@ class CleanGraphql implements HttpGetActionInterface
      */
     public function execute()
     {
-         $this->dataHelper->removeFile($this->dataHelper->getGqlPath());
-
+        $this->dataHelper->removeFile($this->dataHelper->getGqlPath());
         try {
             $types = ['block_html', 'full_page'];
             $updatedTypes = 0;
@@ -56,8 +54,8 @@ class CleanGraphql implements HttpGetActionInterface
                 $this->typeList->cleanType($type);
                 $updatedTypes++;
             }
-                if ($updatedTypes > 0) {
-                    $this->messageManager->addSuccessMessage(__("Flushed the GraphqlSchema files And refreshed the block_html, full_page cache"));
+            if ($updatedTypes > 0) {
+                $this->messageManager->addSuccessMessage(__("Flushed the GraphqlSchema files And refreshed the block_html, full_page cache"));
             }
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
