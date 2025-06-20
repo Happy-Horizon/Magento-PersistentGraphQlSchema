@@ -9,8 +9,6 @@ namespace HappyHorizon\PersistentGraphQlSchema\Plugin\Graphql\Magento\Framework\
 
 use HappyHorizon\PersistentGraphQlSchema\Helper\Data;
 use Magento\Framework\Filesystem\DirectoryList;
-use Safe\Exceptions\FilesystemException;
-use Safe\Exceptions\JsonException;
 
 class Reader
 {
