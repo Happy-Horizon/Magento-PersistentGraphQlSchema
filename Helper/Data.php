@@ -48,10 +48,10 @@ class Data extends AbstractHelper
     }
 
     /**
-     * @param $path
+     * @param string $path
      * @return bool
      */
-    public function checkIfFileExists($path): bool
+    public function checkIfFileExists(string $path): bool
     {
         try {
             return $this->file->isExists($path);
@@ -61,10 +61,10 @@ class Data extends AbstractHelper
     }
 
     /**
-     * @param $path
+     * @param string $path
      * @return bool
      */
-    public function removeFile($path): bool
+    public function removeFile(string $path): bool
     {
         try {
             if ($this->checkIfFileExists($path)) {
@@ -78,11 +78,11 @@ class Data extends AbstractHelper
     }
 
     /**
-     * @param $path
-     * @param $content
+     * @param string $path
+     * @param string $content
      * @return bool
      */
-    public function saveFileContent($path, $content): bool
+    public function saveFileContent(string $path, string $content): bool
     {
         try {
             if ($this->checkIfFileExists($path)) {
@@ -96,34 +96,35 @@ class Data extends AbstractHelper
     }
 
     /**
-     * @param $path
-     * @return string|void
+     * @param string $path
+     * @return string
      */
-    public function getFileContent($path)
+    public function getFileContent(string $path): string
     {
         try {
             if ($this->checkIfFileExists($path)) {
-                $this->file->fileGetContents($path);
+                return $this->file->fileGetContents($path);
             }
         } catch (FileSystemException $e) {
             return "";
         }
+        return "";
     }
 
     /**
-     * @param $data
+     * @param mixed $data
      * @return bool|string
      */
-    public function encodeData($data): bool|string
+    public function encodeData(mixed $data): bool|string
     {
         return $this->json->serialize($data);
     }
 
     /**
-     * @param $data
+     * @param string $data
      * @return array|bool|float|int|mixed|string|null
      */
-    public function decodeData($data): mixed
+    public function decodeData(string $data): mixed
     {
         return $this->json->unserialize($data);
     }
