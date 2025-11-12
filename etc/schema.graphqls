@@ -1,0 +1,17 @@
+type ProductInterface {
+    alternate_urls: [AlternateUrl] @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\Product\\AlternateUrls")
+}
+
+type CategoryInterface {
+    alternate_urls: [AlternateUrl] @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\Category\\AlternateUrls")
+}
+
+type CmsPage {
+    alternate_urls: [AlternateUrl] @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\CmsPage\\AlternateUrls")
+    canonical_url: String @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\CmsPage\\CanonicalUrl")
+}
+
+type AlternateUrl {
+    hreflang: String!
+    url: String!
+}
