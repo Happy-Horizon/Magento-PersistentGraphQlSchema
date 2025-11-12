@@ -1,0 +1,46 @@
+type Query {
+    getMolliePaymentMethods(cart_id: String!): MolliePaymentMethodsOutput @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\GetMolliePaymentMethods")
+}
+
+type Mutation {
+    validateMollieCheckout(
+        cart_id: String!
+        payment_method: String!
+    ): MollieCheckoutValidationOutput @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\ValidateMollieCheckout")
+
+    placeMollieOrder(
+        cart_id: String!
+        payment_method: String!
+    ): PlaceMollieOrderOutput @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\PlaceMollieOrder")
+}
+
+extend type Cart @resolver(class: "Magento\\QuoteGraphQl\\Model\\Resolver\\Cart") {
+    mollie_payment_methods: [MolliePaymentMethod] @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\Cart\\MolliePaymentMethods")
+    mollie_redirect_url: String @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\Cart\\MollieRedirectUrl")
+}
+
+type MolliePaymentMethod {
+    id: String!
+    description: String
+    image: MolliePaymentMethodImage
+}
+
+type MolliePaymentMethodImage {
+    size1x: String
+    size2x: String
+    svg: String
+}
+
+type MolliePaymentMethodsOutput {
+    payment_methods: [MolliePaymentMethod]
+}
+
+type MollieCheckoutValidationOutput {
+    is_valid: Boolean!
+    errors: [String]
+}
+
+type PlaceMollieOrderOutput {
+    order: Order @resolver(class: "Magento\\SalesGraphQl\\Model\\Resolver\\Order")
+    redirect_url: String
+}

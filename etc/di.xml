@@ -6,4 +6,7 @@
                 type="HappyHorizon\PersistentGraphQlSchema\Plugin\Graphql\Magento\Framework\GraphQlSchemaStitching\Common\Reader"
                 sortOrder="0"/>
     </type>
+
+    <!-- GraphQL Resolvers for Mollie Checkout -->
+    <!-- Note: Resolvers are auto-discovered via schema.graphqls @resolver annotations -->
 </config>
