@@ -18,4 +18,12 @@ class GraphqlFlushButton extends \Magento\Backend\Block\Template
     {
         return $this->getUrl('happyhorizon_persistentgraphql/cache/cleanGraphql');
     }
+
+    /**
+     * @return mixed
+     */
+    public function getVerifyUrl()
+    {
+        return $this->getUrl('happyhorizon_persistentgraphql/cache/verifyGraphqlSchema');
+    }
 }

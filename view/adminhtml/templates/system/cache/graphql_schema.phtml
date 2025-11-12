@@ -7,17 +7,33 @@
 /** @var \HappyHorizon\PersistentGraphQlSchema\Block\Cache\GraphqlFlushButton $block */
 /** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
 
-$message = __('Are you sure you want to Flush the GraphqlSchema? Note that this might cause site temporary to go slow!');
-$url = $block->getFlushUrl();
+$flushMessage = __('Are you sure you want to Flush the GraphqlSchema? Note that this might cause site temporary to go slow!');
+$flushUrl = $block->getFlushUrl();
+$verifyUrl = $block->getVerifyUrl();
 ?>
-<p>
-    <button id="flushGraphqlSchema" type="button">
-        <?= __("Flush GraphqlSchema") ?>
-    </button>
-    <?= /* @noEscape */ $secureRenderer->renderEventListenerAsTag(
-        'onclick',
-        'confirmSetLocation(\''.$message.'\', \''.$url.'\')',
-        'button#flushGraphqlSchema'
-    ) ?>
-    <span><?= $block->escapeHtml(__('Flush GraphqlSchema files')); ?></span>
-</p>
+<div class="admin__data-grid-action admin__data-grid-action-columns">
+    <div class="admin__data-grid-action-row">
+        <p>
+            <button id="flushGraphqlSchema" type="button" class="action-secondary">
+                <?= __("Flush GraphQL Schema") ?>
+            </button>
+            <?= /* @noEscape */ $secureRenderer->renderEventListenerAsTag(
+                'onclick',
+                'confirmSetLocation(\''.$flushMessage.'\', \''.$flushUrl.'\')',
+                'button#flushGraphqlSchema'
+            ) ?>
+            <span><?= $block->escapeHtml(__('Flush GraphQL schema files and regenerate cache. Required after installing modules like Mollie GraphQL.')); ?></span>
+        </p>
+        <p style="margin-top: 10px;">
+            <button id="verifyGraphqlSchema" type="button" class="action-secondary">
+                <?= __("Verify GraphQL Schema") ?>
+            </button>
+            <?= /* @noEscape */ $secureRenderer->renderEventListenerAsTag(
+                'onclick',
+                'setLocation(\''.$verifyUrl.'\')',
+                'button#verifyGraphqlSchema'
+            ) ?>
+            <span><?= $block->escapeHtml(__('Verify that GraphQL schema includes Mollie types (getMollieIdealIssuers, setIdealIssuerOnCart, Cart.ideal_issuer).')); ?></span>
+        </p>
+    </div>
+</div>
