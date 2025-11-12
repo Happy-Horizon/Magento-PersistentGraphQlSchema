@@ -1,0 +1,67 @@
+<?php
+/**
+ * Copyright © Happy Horizon Utrecht Development & Technology B.V. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
+
+namespace HappyHorizon\PersistentGraphQlSchema\Model\Resolver;
+
+use Magento\Framework\GraphQl\Config\Element\Field;
+use Magento\Framework\GraphQl\Query\ResolverInterface;
+use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use HappyHorizon\PersistentGraphQlSchema\Model\DataProvider\Block;
+
+class MenuItems implements ResolverInterface
+{
+    /**
+     * @param Block $dataProvider
+     */
+    public function __construct(
+        protected Block $dataProvider
+    ) {
+    }
+
+    /**
+     * @param Field $field
+     * @param $context
+     * @param ResolveInfo $info
+     * @param array|null $value
+     * @param array|null $args
+     * @return array
+     */
+    public function resolve(
+        Field $field,
+        $context,
+        ResolveInfo $info,
+        array $value = null,
+        array $args = null
+    ): array {
+        if (!isset($value['menu_items']) || !is_array($value['menu_items'])) {
+            return [];
+        }
+
+        // Ensure link and url are set for each menu item
+        $formatted = [];
+        foreach ($value['menu_items'] as $item) {
+            $formattedItem = [
+                'identifier' => $item['identifier'] ?? '',
+                'title' => $item['title'] ?? '',
+                'content' => $item['content'] ?? '',
+                'link' => $item['link'] ?? '',
+                'url' => $item['url'] ?? '',
+            ];
+
+            // Recursively handle nested menu_items
+            if (isset($item['menu_items']) && is_array($item['menu_items'])) {
+                $formattedItem['menu_items'] = $this->dataProvider->formatMenuItems($item['menu_items']);
+            } else {
+                $formattedItem['menu_items'] = [];
+            }
+
+            $formatted[] = $formattedItem;
+        }
+
+        return $formatted;
+    }
+}
