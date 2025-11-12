@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:GraphQl/etc/resolver_registry.xsd">
+    <resolver name="ProductInterface.hreflang" class="HappyHorizon\HreflangGraphQl\Model\GraphQl\Resolver\Product\Hreflang"/>
+    <resolver name="ProductInterface.alternate_urls" class="HappyHorizon\HreflangGraphQl\Model\GraphQl\Resolver\Product\AlternateUrls"/>
+    <resolver name="CategoryInterface.hreflang" class="HappyHorizon\HreflangGraphQl\Model\GraphQl\Resolver\Category\Hreflang"/>
+    <resolver name="CategoryInterface.alternate_urls" class="HappyHorizon\HreflangGraphQl\Model\GraphQl\Resolver\Category\AlternateUrls"/>
+</config>

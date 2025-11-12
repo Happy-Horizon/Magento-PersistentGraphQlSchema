@@ -1,0 +1,29 @@
+{
+    "name": "happyhorizon/module-hreflang-graphql",
+    "description": "GraphQL API support for hreflang tags and alternate URLs for multi-language webshop",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "name": "Happy Horizon",
+            "email": "info@happyhorizon.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8",
+        "magento/framework": "*",
+        "magento/module-graph-ql": "*",
+        "magento/module-store": "*",
+        "magento/module-catalog": "*",
+        "magento/module-catalog-graph-ql": "*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "HappyHorizon\\HreflangGraphQl\\": ""
+        }
+    }
+}

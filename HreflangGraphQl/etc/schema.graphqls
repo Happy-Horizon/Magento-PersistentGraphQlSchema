@@ -1,0 +1,9 @@
+type ProductInterface {
+    hreflang: String @doc(description: "Hreflang tag value for the product")
+    alternate_urls: String @doc(description: "Comma-separated alternate URLs for the product")
+}
+
+type CategoryInterface {
+    hreflang: String @doc(description: "Hreflang tag value for the category")
+    alternate_urls: String @doc(description: "Comma-separated alternate URLs for the category")
+}
