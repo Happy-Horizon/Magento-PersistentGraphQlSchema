@@ -1,0 +1,54 @@
+# Copyright © Happy Horizon Utrecht Development & Technology B.V. All rights reserved.
+# See COPYING.txt for license details.
+
+# Extend ProductInterface with alternate URLs and canonical URL
+type ProductInterface {
+    """
+    Alternate URLs for hreflang tags
+    """
+    alternate_urls: [AlternateUrl] @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\Product\\AlternateUrls")
+    
+    """
+    Canonical URL for the product
+    """
+    canonical_url: String @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\Product\\CanonicalUrl")
+}
+
+# Extend CategoryInterface with alternate URLs and canonical URL
+type CategoryInterface {
+    """
+    Alternate URLs for hreflang tags
+    """
+    alternate_urls: [AlternateUrl] @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\Category\\AlternateUrls")
+    
+    """
+    Canonical URL for the category
+    """
+    canonical_url: String @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\Category\\CanonicalUrl")
+}
+
+# Extend CmsPage with alternate URLs and canonical URL
+type CmsPage {
+    """
+    Alternate URLs for hreflang tags
+    """
+    alternate_urls: [AlternateUrl] @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\CmsPage\\AlternateUrls")
+    
+    """
+    Canonical URL for the CMS page
+    """
+    canonical_url: String @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\CmsPage\\CanonicalUrl")
+}
+
+# Alternate URL type for hreflang tags
+type AlternateUrl {
+    """
+    Language code (e.g., 'en-US', 'nl-NL')
+    """
+    hreflang: String!
+    
+    """
+    URL for the alternate language version
+    """
+    href: String!
+}
