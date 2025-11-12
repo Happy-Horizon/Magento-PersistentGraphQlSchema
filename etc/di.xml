@@ -6,4 +6,20 @@
                 type="HappyHorizon\PersistentGraphQlSchema\Plugin\Graphql\Magento\Framework\GraphQlSchemaStitching\Common\Reader"
                 sortOrder="0"/>
     </type>
+    
+    <!-- GraphQl plugin to initialize API context -->
+    <type name="Magento\Framework\GraphQl\GraphQl">
+        <plugin name="HappyHorizon_PersistentGraphQlSchema_Plugin_Graphql_Magento_Framework_GraphQl"
+                type="HappyHorizon\PersistentGraphQlSchema\Plugin\Graphql\Magento\Framework\GraphQl\GraphQl"
+                sortOrder="10"/>
+    </type>
+    
+    <!-- Configure API Context Manager with context providers -->
+    <type name="HappyHorizon\PersistentGraphQlSchema\Model\ApiContextManager">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <item name="default" xsi:type="object">HappyHorizon\PersistentGraphQlSchema\Model\DefaultContextProvider</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
