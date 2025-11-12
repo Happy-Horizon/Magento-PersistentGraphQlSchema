@@ -8,6 +8,6 @@ use Magento\Framework\Component\ComponentRegistrar;
 
 ComponentRegistrar::register(
     ComponentRegistrar::MODULE,
-    'HappyHorizon_PersistentGraphQlSchema',
+    'HappyHorizon_ShopwareCheckoutGraphQl',
     __DIR__
 );

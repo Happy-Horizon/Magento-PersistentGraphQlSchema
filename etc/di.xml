@@ -1,9 +1,4 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <!-- Declare plugin on global scope to soft refresh from every scope -->
-    <type name="Magento\Framework\GraphQlSchemaStitching\Common\Reader">
-        <plugin name="HappyHorizon_PersistentGraphQlSchema_Plugin_Graphql_Magento_Framework_GraphQlSchemaStitching_Common_Reader"
-                type="HappyHorizon\PersistentGraphQlSchema\Plugin\Graphql\Magento\Framework\GraphQlSchemaStitching\Common\Reader"
-                sortOrder="0"/>
-    </type>
+    <!-- Dependency injection configuration for Shopware Checkout GraphQL module -->
 </config>

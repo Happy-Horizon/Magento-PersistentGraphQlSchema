@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="shopware" translate="label" sortOrder="200">
+            <label>Shopware</label>
+        </tab>
+        <section id="shopware" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Shopware API Configuration</label>
+            <tab>shopware</tab>
+            <resource>HappyHorizon_ShopwareCheckoutGraphQl::config</resource>
+            <group id="api" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>API Credentials</label>
+                <field id="url" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API URL</label>
+                    <comment>Enter the base URL of your Shopware instance (e.g., https://your-shopware-instance.com)</comment>
+                    <validate>validate-url</validate>
+                    <frontend_class>validate-url</frontend_class>
+                </field>
+                <field id="access_key" translate="label comment" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Access Key</label>
+                    <comment>Enter the Shopware Store API access key</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="secret_key" translate="label comment" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Secret Key</label>
+                    <comment>Enter the Shopware Store API secret key</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="sales_channel_id" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sales Channel ID</label>
+                    <comment>Enter the Shopware sales channel ID</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

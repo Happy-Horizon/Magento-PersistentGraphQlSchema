@@ -1,0 +1,164 @@
+type Query {
+    shopwareCart(cartId: String!): ShopwareCart @resolver(class: "HappyHorizon\\ShopwareCheckoutGraphQl\\Model\\Resolver\\GetCart")
+    shopwareUser: ShopwareUser @resolver(class: "HappyHorizon\\ShopwareCheckoutGraphQl\\Model\\Resolver\\GetUser")
+}
+
+type Mutation {
+    shopwareSetAddressInfo(
+        cartId: String!
+        addressType: String!
+        firstName: String!
+        lastName: String!
+        street: String!
+        city: String!
+        zipcode: String!
+        country: String!
+        phone: String
+        email: String
+    ): ShopwareCart @resolver(class: "HappyHorizon\\ShopwareCheckoutGraphQl\\Model\\Resolver\\SetAddressInfo")
+    
+    shopwareSubmitAddress(
+        cartId: String!
+        addressType: String!
+        firstName: String!
+        lastName: String!
+        street: String!
+        city: String!
+        zipcode: String!
+        country: String!
+        phone: String
+        email: String
+    ): ShopwareAddressResponse @resolver(class: "HappyHorizon\\ShopwareCheckoutGraphQl\\Model\\Resolver\\SubmitAddress")
+    
+    shopwarePlaceOrder(
+        cartId: String!
+    ): ShopwareOrder @resolver(class: "HappyHorizon\\ShopwareCheckoutGraphQl\\Model\\Resolver\\PlaceOrder")
+    
+    shopwareApplyCouponCode(
+        cartId: String!
+        couponCode: String!
+    ): ShopwareCart @resolver(class: "HappyHorizon\\ShopwareCheckoutGraphQl\\Model\\Resolver\\ApplyCouponCode")
+}
+
+type ShopwareCart {
+    id: String
+    token: String
+    price: ShopwarePrice
+    lineItems: [ShopwareLineItem]
+    shippingCosts: ShopwarePrice
+    totalPrice: Float
+    modified: Boolean
+    customerComment: String
+}
+
+type ShopwareLineItem {
+    id: String
+    type: String
+    label: String
+    quantity: Int
+    price: ShopwarePrice
+    payload: String
+    good: Boolean
+    removable: Boolean
+    stackable: Boolean
+}
+
+type ShopwarePrice {
+    unitPrice: Float
+    totalPrice: Float
+    calculatedTaxes: [ShopwareCalculatedTax]
+    taxRules: [ShopwareTaxRule]
+}
+
+type ShopwareCalculatedTax {
+    tax: Float
+    taxRate: Float
+    price: Float
+}
+
+type ShopwareTaxRule {
+    taxRate: Float
+    percentage: Float
+}
+
+type ShopwareUser {
+    id: String
+    customerId: String
+    firstName: String
+    lastName: String
+    email: String
+    active: Boolean
+    guest: Boolean
+    firstLogin: String
+    lastLogin: String
+    salesChannelId: String
+    languageId: String
+    addresses: [ShopwareAddress]
+}
+
+type ShopwareAddress {
+    id: String
+    salutationId: String
+    firstName: String
+    lastName: String
+    street: String
+    zipcode: String
+    city: String
+    countryId: String
+    countryStateId: String
+    phoneNumber: String
+    additionalAddressLine1: String
+    additionalAddressLine2: String
+}
+
+type ShopwareAddressResponse {
+    success: Boolean
+    message: String
+    cart: ShopwareCart
+}
+
+type ShopwareOrder {
+    id: String
+    orderNumber: String
+    orderDate: String
+    price: ShopwarePrice
+    stateId: String
+    stateMachineState: ShopwareStateMachineState
+    transactions: [ShopwareOrderTransaction]
+    lineItems: [ShopwareOrderLineItem]
+    addresses: [ShopwareOrderAddress]
+}
+
+type ShopwareStateMachineState {
+    name: String
+    technicalName: String
+}
+
+type ShopwareOrderTransaction {
+    id: String
+    paymentMethodId: String
+    amount: ShopwarePrice
+    stateId: String
+    stateMachineState: ShopwareStateMachineState
+}
+
+type ShopwareOrderLineItem {
+    id: String
+    identifier: String
+    quantity: Int
+    label: String
+    payload: String
+    price: ShopwarePrice
+}
+
+type ShopwareOrderAddress {
+    id: String
+    salutationId: String
+    firstName: String
+    lastName: String
+    street: String
+    zipcode: String
+    city: String
+    countryId: String
+    phoneNumber: String
+}

@@ -1,32 +1,30 @@
 {
-    "name": "happyhorizon/module-persistentgraphqlschema",
-    "description": "Load the graphql schema data from a generated file instead of cache to improve performance",
+    "name": "happyhorizon/module-shopware-checkout-graphql",
+    "description": "Magento 2 GraphQL module for Shopware checkout integration",
     "type": "magento2-module",
     "license": "OSL-3.0",
     "authors": [
         {
-            "name": "Mage2Gen",
-            "email": "info@mage2gen.com"
-        },
-        {
-            "name": "Derrick Heesbeen",
-            "email": "derrick@experius.nl"
-        },
-        {
-            "name": "Boris van Katwijk",
-            "email": "borisvankatwijk@happyhorizon.com"
+            "name": "Happy Horizon",
+            "email": "info@happyhorizon.com"
         }
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": "^8"
+        "php": "^8",
+        "magento/framework": "*",
+        "magento/module-graph-ql": "*",
+        "magento/module-store": "*",
+        "magento/module-customer": "*",
+        "magento/module-quote": "*",
+        "magento/module-sales": "*"
     },
     "autoload": {
         "files": [
             "registration.php"
         ],
         "psr-4": {
-            "HappyHorizon\\PersistentGraphQlSchema\\": ""
+            "HappyHorizon\\ShopwareCheckoutGraphQl\\": ""
         }
     }
 }
