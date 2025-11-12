@@ -1,0 +1,16 @@
+type Mutation {
+    setDefaultAddress(
+        addressId: Int!
+        addressType: AddressType!
+    ): SetDefaultAddressOutput @resolver(class: "HappyHorizon\\CustomerAddressGraphQl\\Model\\Resolver\\SetDefaultAddress") @doc(description: "Set default shipping or billing address for the authenticated customer")
+}
+
+enum AddressType {
+    SHIPPING @value(name: "shipping")
+    BILLING @value(name: "billing")
+}
+
+type SetDefaultAddressOutput {
+    success: Boolean! @doc(description: "Indicates whether the operation was successful")
+    message: String @doc(description: "Response message")
+}
