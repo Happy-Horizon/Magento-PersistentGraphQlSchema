@@ -6,4 +6,29 @@
                 type="HappyHorizon\PersistentGraphQlSchema\Plugin\Graphql\Magento\Framework\GraphQlSchemaStitching\Common\Reader"
                 sortOrder="0"/>
     </type>
+    
+    <!-- GraphQL Resolvers -->
+    <type name="Magento\Framework\GraphQl\Query\Resolver\Query">
+        <arguments>
+            <argument name="resolvers" xsi:type="array">
+                <item name="getMegaMenu" xsi:type="string">HappyHorizon\PersistentGraphQlSchema\Model\Resolver\MegaMenu</item>
+                <item name="getTopbar" xsi:type="string">HappyHorizon\PersistentGraphQlSchema\Model\Resolver\Topbar</item>
+                <item name="getUsps" xsi:type="string">HappyHorizon\PersistentGraphQlSchema\Model\Resolver\Usps</item>
+                <item name="getFooter" xsi:type="string">HappyHorizon\PersistentGraphQlSchema\Model\Resolver\Footer</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <type name="Magento\Framework\GraphQl\Query\Resolver\Type">
+        <arguments>
+            <argument name="resolvers" xsi:type="array">
+                <item name="ContentBlockDynamic" xsi:type="array">
+                    <item name="menu_items" xsi:type="string">HappyHorizon\PersistentGraphQlSchema\Model\Resolver\MenuItems</item>
+                    <item name="usp_items" xsi:type="string">HappyHorizon\PersistentGraphQlSchema\Model\Resolver\UspItems</item>
+                </item>
+                <item name="MenuItems" xsi:type="string">HappyHorizon\PersistentGraphQlSchema\Model\Resolver\MenuItems</item>
+                <item name="UspItems" xsi:type="string">HappyHorizon\PersistentGraphQlSchema\Model\Resolver\UspItems</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -1,0 +1,29 @@
+type Query {
+    getMegaMenu(identifier: String!): ContentBlockDynamic @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\MegaMenu")
+    getTopbar(identifier: String!): ContentBlockDynamic @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\Topbar")
+    getUsps(identifier: String!): ContentBlockDynamic @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\Usps")
+    getFooter(identifier: String!): ContentBlockDynamic @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\Footer")
+}
+
+type ContentBlockDynamic {
+    identifier: String
+    title: String
+    content: String
+    link: String
+    url: String
+    menu_items: [MenuItems] @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\MenuItems")
+    usp_items: [UspItems] @resolver(class: "HappyHorizon\\PersistentGraphQlSchema\\Model\\Resolver\\UspItems")
+}
+
+type MenuItems {
+    label: String
+    url: String
+    target: String
+    children: [MenuItems]
+}
+
+type UspItems {
+    label: String
+    icon: String
+    description: String
+}
