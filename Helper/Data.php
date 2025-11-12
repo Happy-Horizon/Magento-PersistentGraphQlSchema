@@ -97,17 +97,18 @@ class Data extends AbstractHelper
 
     /**
      * @param $path
-     * @return string|void
+     * @return string
      */
-    public function getFileContent($path)
+    public function getFileContent($path): string
     {
         try {
             if ($this->checkIfFileExists($path)) {
-                $this->file->fileGetContents($path);
+                return $this->file->fileGetContents($path);
             }
         } catch (FileSystemException $e) {
             return "";
         }
+        return "";
     }
 
     /**
