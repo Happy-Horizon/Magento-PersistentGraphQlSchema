@@ -6,4 +6,12 @@
                 type="HappyHorizon\PersistentGraphQlSchema\Plugin\Graphql\Magento\Framework\GraphQlSchemaStitching\Common\Reader"
                 sortOrder="0"/>
     </type>
+
+    <!-- Plugin to inject CMS page model into resolver value for alternate URLs -->
+    <type name="Magento\CmsGraphQl\Model\Resolver\Page">
+        <plugin name="HappyHorizon_PersistentGraphQlSchema_InjectCmsPageModel"
+                type="HappyHorizon\PersistentGraphQlSchema\Plugin\Cms\InjectPageModel"
+                sortOrder="10"/>
+    </type>
+
 </config>

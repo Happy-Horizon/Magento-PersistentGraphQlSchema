@@ -1,0 +1,16 @@
+type AlternateUrl {
+    href: String!
+    hreflang: String!
+}
+
+extend type CmsPage {
+    alternate_urls: [AlternateUrl!]
+}
+
+extend interface ProductInterface {
+    alternate_urls: [AlternateUrl!]
+}
+
+extend type CategoryTree {
+    alternate_urls: [AlternateUrl!]
+}

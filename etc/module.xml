@@ -5,6 +5,11 @@
 			<module name="Magento_Backend"/>
 			<module name="Magento_Framework"/>
             <module name="Magento_GraphQl"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_CmsGraphQl"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_CatalogGraphQl"/>
+            <module name="Magento_Store"/>
 		</sequence>
 	</module>
 </config>
