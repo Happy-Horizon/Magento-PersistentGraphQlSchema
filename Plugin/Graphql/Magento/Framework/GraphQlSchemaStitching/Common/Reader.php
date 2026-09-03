@@ -25,28 +25,31 @@ class Reader
     /**
      * @param \Magento\Framework\GraphQlSchemaStitching\Common\Reader $subject
      * @param \Closure $proceed
-     * @param $scope
+     * @param string|null $scope
      * @return array
      */
     public function aroundRead(
         \Magento\Framework\GraphQlSchemaStitching\Common\Reader $subject,
         \Closure $proceed,
-        $scope = null
+        ?string $scope = null
     ): array {
         $filename = $this->helper->getGqlPath();
 
         try {
-            $data = $this->helper->checkIfFileExists($filename)? $this->helper->getFileContent($filename): false;
+            $data = $this->helper->checkIfFileExists($filename)
+                ? $this->helper->getFileContent($filename)
+                : false;
         } catch (\Exception $e) {
             $data = false;
         }
 
-        if (false === $data || '' === (string)$data) {
-            $data = $proceed();
-            $this->helper->saveFileContent($filename, $this->helper->encodeData($data));
-            return $data;
-        } else {
-            return $this->helper->decodeData($data);
+        if (false === $data || '' === $data) {
+            $schema = $proceed($scope);
+            $this->helper->saveFileContent($filename, $this->helper->encodeData($schema));
+            return $schema;
         }
+
+        $decoded = $this->helper->decodeData($data);
+        return is_array($decoded) ? $decoded : [];
     }
 }
