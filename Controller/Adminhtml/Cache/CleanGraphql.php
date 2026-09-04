@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright ©  All rights reserved.
+ * Copyright © Happy Horizon Utrecht Development & Technology B.V. All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -10,12 +10,11 @@ namespace HappyHorizon\PersistentGraphQlSchema\Controller\Adminhtml\Cache;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
-use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Result\PageFactory;
 use HappyHorizon\PersistentGraphQlSchema\Helper\Data;
 use Magento\Framework\App\Cache\TypeListInterface;
-use Magento\Framework\Message\ManagerInterface as messageManager;
+use Magento\Framework\Message\ManagerInterface;
 use Magento\Backend\Model\View\Result\Redirect;
 
 class CleanGraphql implements HttpGetActionInterface
@@ -24,17 +23,17 @@ class CleanGraphql implements HttpGetActionInterface
      * @param PageFactory $resultPageFactory
      * @param Data $dataHelper
      * @param TypeListInterface $typeList
-     * @param messageManager $messageManager
+     * @param ManagerInterface $messageManager
      * @param Redirect $redirect
      * @param ResultFactory $resultFactory
      */
     public function __construct(
-        protected PageFactory       $resultPageFactory,
-        protected Data              $dataHelper,
+        protected PageFactory $resultPageFactory,
+        protected Data $dataHelper,
         protected TypeListInterface $typeList,
-        protected messageManager    $messageManager,
-        protected Redirect          $redirect,
-        protected ResultFactory     $resultFactory
+        protected ManagerInterface $messageManager,
+        protected Redirect $redirect,
+        protected ResultFactory $resultFactory
     ) {
     }
 
@@ -42,9 +41,8 @@ class CleanGraphql implements HttpGetActionInterface
      * Execute view action
      *
      * @return ResultInterface
-     * @throws FileSystemException
      */
-    public function execute()
+    public function execute(): ResultInterface
     {
         $this->dataHelper->removeFile($this->dataHelper->getGqlPath());
         try {
@@ -65,6 +63,5 @@ class CleanGraphql implements HttpGetActionInterface
 
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         return $resultRedirect->setPath('adminhtml/*');
-
     }
 }

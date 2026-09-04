@@ -1,3 +1,10 @@
+## 3.0.0 (2026-09-03)
+
+[View Release](git@github.com:Happy-Horizon/Magento-PersistentGraphQlSchema.git/commits/tag/3.0.0)
+
+*  [FEATURE][ILDT-64] PHP 8.5 compatibility: add return/parameter types, remove unused helper dependency, fix schema file content read return. *(Cursor Agent)*
+
+
 ## 1.2.1 (2023-10-09)
 
 [View Release](git@github.com:Happy-Horizon/Magento-PersistentGraphQlSchema.git/commits/tag/1.2.1)
@@ -41,5 +48,4 @@
 [View Release](git@github.com:Happy-Horizon/Magento-PersistentGraphQlSchema.git/commits/tag/0.4.0)
 
 *  [FEATURE][IN23-11] Initial commit; module for graphql.schema file based persistent caching. *(Boris van Katwijk)*
-
 
